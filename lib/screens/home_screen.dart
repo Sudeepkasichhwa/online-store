@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:online_store/screens/search_screen.dart';
 import 'package:online_store/widgets/product_card.dart';
+import '../provider/product_details_provider.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  Widget build(BuildContext context, ref) {
+    final products = ref.watch(productsProvider);
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text(widget.title,style: TextStyle(color: Colors.white),),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Padding(
               padding: EdgeInsets.all(8.0),
@@ -37,8 +39,22 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ],
       ),
-      body: ProductCard(),
-      backgroundColor: Colors.grey,
+      body: SingleChildScrollView(
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: products.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5.0,
+            crossAxisSpacing: 5.0,
+            mainAxisExtent: 260.0,
+          ),
+          itemBuilder: (context, index) {
+            return ProductCard(products[index]);
+          },
+        ),
+      ),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:online_store/models/product_model.dart';
 
 class ProductDetails extends StatelessWidget {
-  final Map productsData;
-  ProductDetails({super.key, required this.productsData});
+  final Product product;
+  ProductDetails({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class ProductDetails extends StatelessWidget {
                     border: Border.all(width: 2.0),
                     borderRadius: BorderRadius.circular(20.0),
                     image: DecorationImage(
-                      image: NetworkImage("${productsData['image']}"),
+                      image: NetworkImage("${product.image}"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -36,7 +37,7 @@ class ProductDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "${productsData['title']}",
+                      "${product.title}",
                       style: TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
@@ -44,7 +45,7 @@ class ProductDetails extends StatelessWidget {
                       height: 4.0,
                     ),
                     Text(
-                      "Price : \$ ${productsData['price']}",
+                      "Price : \$ ${product.price}",
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -67,7 +68,7 @@ class ProductDetails extends StatelessWidget {
                       ),
                       Divider(),
                       Text(
-                        "${productsData['description']}",
+                        "${product.description}",
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w400,

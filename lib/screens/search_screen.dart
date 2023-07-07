@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:online_store/widgets/product_card.dart';
 
-class SearchProduct extends StatelessWidget {
-  const SearchProduct({super.key});
+import '../provider/product_details_provider.dart';
+
+class SearchProduct extends ConsumerStatefulWidget {
+  SearchProduct({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  ConsumerState<SearchProduct> createState() => _SearchProductState();
+}
+
+class _SearchProductState extends ConsumerState<SearchProduct> {
+  String searchQuery = '';
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    final products = ref.watch(productsProvider);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -15,10 +29,16 @@ class SearchProduct extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0), color: Colors.white),
             child: TextField(
+              onChanged: (val) {
+                setState(() {
+                  searchQuery = val;
+                });
+              },
+              autofocus: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
-                hintText: "Search your product",
+                hintText: "Search your product ...",
                 isDense: true,
                 hoverColor: Colors.white,
                 suffixIcon: IconButton(
@@ -29,7 +49,10 @@ class SearchProduct extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(),
+        body: Center(
+          child: Container(),
+          // searchQuery.toLowerCase().contains(products[0].title.toLowerCase())? ProductCard(products[0]):
+        ),
       ),
     );
   }
