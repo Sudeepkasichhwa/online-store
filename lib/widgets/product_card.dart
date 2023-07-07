@@ -1,8 +1,7 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:online_store/screens/product_details_screen.dart';
 
 class ProductCard extends StatefulWidget {
   @override
@@ -18,6 +17,7 @@ class _ProductCardState extends State<ProductCard> {
     Response response = await get(url);
 
     setState(() {
+      print("object");
       mapResponse = jsonDecode(response.body);
     });
   }
@@ -42,7 +42,7 @@ class _ProductCardState extends State<ProductCard> {
           crossAxisCount: 2,
           mainAxisSpacing: 5.0,
           crossAxisSpacing: 5.0,
-          mainAxisExtent: 290.0,
+          mainAxisExtent: 260.0,
         ),
         itemBuilder: (context, index) {
           return Padding(
@@ -60,7 +60,15 @@ class _ProductCardState extends State<ProductCard> {
                         topLeft: Radius.circular(14.0),
                         topRight: Radius.circular(14.0)),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetails(
+                                productsData: mapResponse[index]),
+                          ),
+                        );
+                      },
                       child: Image.network(
                         "${mapResponse[index]['image']}",
                         height: 180.0,
@@ -69,14 +77,19 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 4.0,),
+                  SizedBox(
+                    height: 4.0,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "${mapResponse[index]['title']}",
                         style: TextStyle(
-                            fontSize: 11.0, fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white54),
                       ),
                       SizedBox(
                         height: 4.0,
@@ -84,13 +97,13 @@ class _ProductCardState extends State<ProductCard> {
                       Text(
                         "\$ ${mapResponse[index]['price']}",
                         style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 163, 46, 22),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
