@@ -40,6 +40,8 @@ This project is an e-commerce Flutter application.
   
   User can search the product they want to buy and shows the matched product.
 
+Riverpod is used for state management. It is used for fetching the data from API, for showing product and cart.
+
 ## Download link
 
 [Download_apk](https://docs.flutter.dev/get-started/codelab](https://drive.google.com/file/d/1Dx72HWe1l3LExxtUN6o0DYa7rvnS8TFq/view?usp=drive_link)https://drive.google.com/file/d/1Dx72HWe1l3LExxtUN6o0DYa7rvnS8TFq/view?usp=drive_link)
