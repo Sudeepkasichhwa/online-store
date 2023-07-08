@@ -57,7 +57,7 @@ class ProductCard extends ConsumerWidget {
                       overflow: TextOverflow.ellipsis,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white54),
+                      color: Colors.white70),
                 ),
                 SizedBox(
                   height: 4.0,
@@ -65,7 +65,7 @@ class ProductCard extends ConsumerWidget {
                 Text(
                   "\$ ${product.price}",
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 163, 46, 22),
                   ),

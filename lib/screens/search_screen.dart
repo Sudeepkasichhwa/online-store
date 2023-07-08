@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:online_store/widgets/product_card.dart';
 
-import '../provider/product_details_provider.dart';
+import '../providers/product_details_provider.dart';
 
 class SearchProduct extends ConsumerStatefulWidget {
   SearchProduct({super.key});
@@ -12,12 +12,12 @@ class SearchProduct extends ConsumerStatefulWidget {
 }
 
 class _SearchProductState extends ConsumerState<SearchProduct> {
-  String searchQuery = '';
+  List filteredProducts = [];
+
+  TextEditingController _searchController = TextEditingController();
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     final products = ref.watch(productsProvider);
     return SafeArea(
       child: Scaffold(
@@ -25,13 +25,18 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
           backgroundColor: Colors.blueGrey,
           title: Container(
             width: double.infinity,
-            height: 50.0,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0), color: Colors.white),
             child: TextField(
+              controller: _searchController,
               onChanged: (val) {
+          
+                final filteredList = val == ''? []:products
+                    .where((product) =>
+                        product.title.toLowerCase().contains(val.toLowerCase()))
+                    .toList();
                 setState(() {
-                  searchQuery = val;
+                  filteredProducts = filteredList;
                 });
               },
               autofocus: true,
@@ -42,16 +47,33 @@ class _SearchProductState extends ConsumerState<SearchProduct> {
                 isDense: true,
                 hoverColor: Colors.white,
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _searchController.clear();
+                  },
                   icon: Icon(Icons.clear),
                 ),
               ),
             ),
           ),
         ),
-        body: Center(
-          child: Container(),
-          // searchQuery.toLowerCase().contains(products[0].title.toLowerCase())? ProductCard(products[0]):
+        body: SingleChildScrollView(
+          child: filteredProducts.isEmpty?Center(child: Text("No results found !!"))
+          :GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: filteredProducts.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 5.0,
+              crossAxisSpacing: 5.0,
+              mainAxisExtent: 260.0,
+            ),
+            itemBuilder: (context, index) {
+              return Container(
+                child: ProductCard(filteredProducts[index]),
+              );
+            },
+          ),
         ),
       ),
     );

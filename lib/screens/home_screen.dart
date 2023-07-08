@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:online_store/screens/cart-screen.dart';
 import 'package:online_store/screens/search_screen.dart';
 import 'package:online_store/widgets/product_card.dart';
-import '../provider/product_details_provider.dart';
+import '../providers/product_details_provider.dart';
 
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key, required this.title});
@@ -21,6 +22,23 @@ class MyHomePage extends ConsumerWidget {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
+          Padding(
+              padding: EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartScreen(),
+                    ),
+                  );
+                },
+              )),
+          
           Padding(
               padding: EdgeInsets.all(8.0),
               child: IconButton(
